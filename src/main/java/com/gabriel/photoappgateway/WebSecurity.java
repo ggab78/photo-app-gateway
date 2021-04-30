@@ -1,10 +1,12 @@
 package com.gabriel.photoappgateway;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
+@Configuration
 @EnableWebFluxSecurity
 public class WebSecurity {
 
@@ -13,7 +15,9 @@ public class WebSecurity {
             ServerHttpSecurity http) {
 
         return http.authorizeExchange().pathMatchers("/actuator/**").permitAll()
-                .and().build();
+                .pathMatchers("/users-service/**").permitAll()
+                .pathMatchers("/**").permitAll()
+                .and().csrf().disable().build();
 
     }
 
